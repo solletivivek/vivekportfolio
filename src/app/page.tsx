@@ -165,7 +165,7 @@ export default function Page() {
                   Global Achievements
                 </h2>
                 <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  I've earned {DATA.certifications.length}+ industry-recognized certifications that validate my expertise across various domains. These credentials demonstrate my commitment to professional growth and mastery of cutting-edge technologies and methodologies.
+                  I&apos;ve earned {DATA.certifications.length}+ industry-recognized certifications that validate my expertise across various domains. These credentials demonstrate my commitment to professional growth and mastery of cutting-edge technologies and methodologies.
                 </p>
               </div>
             </div>

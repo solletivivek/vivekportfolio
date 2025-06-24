@@ -97,7 +97,7 @@ export function ContactFormDialog() {
         <DialogHeader>
           <DialogTitle>Get in Touch</DialogTitle>
           <DialogDescription>
-            Fill out the form below and I'll get back to you as soon as possible.
+            Fill out the form below and I&apos;ll get back to you as soon as possible.
           </DialogDescription>
         </DialogHeader>
         {isSubmitted ? (
@@ -119,9 +119,9 @@ export function ContactFormDialog() {
               </svg>
             </div>
             <h3 className="text-lg font-semibold">Message Sent!</h3>
-            <p className="text-center text-muted-foreground">
-              Thank you for reaching out. I'll respond to your message soon.
-            </p>
+                          <p className="text-center text-muted-foreground">
+                Thank you for reaching out. I&apos;ll respond to your message soon.
+              </p>
           </div>
         ) : (
           <Form {...form}>
