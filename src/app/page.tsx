@@ -1,4 +1,5 @@
 import { CertificationCard } from "@/components/certification-card";
+import { ContactFormDialog } from "@/components/contact-form";
 import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
 import { ProjectCard } from "@/components/project-card";
@@ -211,6 +212,11 @@ export default function Page() {
                 and I&apos;ll respond whenever I can. I will ignore all
                 soliciting.
               </p>
+              <div className="flex justify-center pt-4">
+                <BlurFade delay={BLUR_FADE_DELAY * 17}>
+                  <ContactFormDialog />
+                </BlurFade>
+              </div>
             </div>
           </BlurFade>
         </div>
