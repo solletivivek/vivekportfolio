@@ -132,7 +132,7 @@ export const DATA = {
         },
         {
           type: "GitHub",
-          href: "#",
+          href: "https://github.com/solletivivek/amazon-scraper-api",
           icon: <Icons.github className="size-3" />,
         },
       ],
@@ -167,7 +167,7 @@ export const DATA = {
         },
         {
           type: "GitHub",
-          href: "#",
+          href: "https://github.com/solletivivek/tourism-website",
           icon: <Icons.github className="size-3" />,
         },
       ],
@@ -206,7 +206,7 @@ export const DATA = {
         },
         {
           type: "GitHub",
-          href: "#",
+          href: "https://github.com/solletivivek/ai-email-sender",
           icon: <Icons.github className="size-3" />,
         },
       ],
@@ -243,7 +243,7 @@ export const DATA = {
         },
         {
           type: "GitHub",
-          href: "#",
+          href: "https://github.com/solletivivek/ai-notes",
           icon: <Icons.github className="size-3" />,
         },
       ],

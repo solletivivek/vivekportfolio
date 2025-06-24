@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Loader2, SendIcon, CheckCircleIcon } from "lucide-react";
+import { motion } from "framer-motion";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -87,53 +89,49 @@ export function ContactFormDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          variant="outline"
-          className="bg-foreground text-background hover:bg-foreground/90"
+          variant="default"
+          className="px-6 py-6 text-base rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
         >
-          Contact Me
+          <span>Contact Me</span>
+          <SendIcon className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Get in Touch</DialogTitle>
-          <DialogDescription>
+      <DialogContent className="sm:max-w-[475px] rounded-xl border-border/60 shadow-xl">
+        <DialogHeader className="space-y-3">
+          <DialogTitle className="text-2xl">Get in Touch</DialogTitle>
+          <DialogDescription className="text-base">
             Fill out the form below and I&apos;ll get back to you as soon as possible.
           </DialogDescription>
         </DialogHeader>
         {isSubmitted ? (
-          <div className="flex flex-col items-center justify-center py-8 space-y-2">
-            <div className="mb-4 rounded-full bg-green-100 p-3 text-green-600 dark:bg-green-900/20 dark:text-green-400">
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 13l4 4L19 7"
-                ></path>
-              </svg>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center justify-center py-12 space-y-4"
+          >
+            <div className="mb-4 rounded-full bg-primary/10 p-5 text-primary border border-primary/20">
+              <CheckCircleIcon className="h-10 w-10" />
             </div>
-            <h3 className="text-lg font-semibold">Message Sent!</h3>
-                          <p className="text-center text-muted-foreground">
-                Thank you for reaching out. I&apos;ll respond to your message soon.
-              </p>
-          </div>
+            <h3 className="text-xl font-semibold text-center">Message Sent!</h3>
+            <p className="text-center text-muted-foreground max-w-[300px]">
+              Thank you for reaching out. I&apos;ll respond to your message soon.
+            </p>
+          </motion.div>
         ) : (
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel className="text-sm font-medium">Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your name" {...field} />
+                      <Input 
+                        placeholder="Your name" 
+                        className="rounded-lg h-11 border-border/60 focus-visible:ring-primary/30" 
+                        {...field} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -144,9 +142,14 @@ export function ContactFormDialog() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-sm font-medium">Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="example@email.com" {...field} />
+                      <Input 
+                        placeholder="example@email.com" 
+                        type="email"
+                        className="rounded-lg h-11 border-border/60 focus-visible:ring-primary/30" 
+                        {...field} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -157,9 +160,14 @@ export function ContactFormDialog() {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                    <FormLabel className="text-sm font-medium">Phone Number</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your phone number" {...field} />
+                      <Input 
+                        placeholder="Your phone number"
+                        type="tel" 
+                        className="rounded-lg h-11 border-border/60 focus-visible:ring-primary/30" 
+                        {...field} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -170,11 +178,11 @@ export function ContactFormDialog() {
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Message</FormLabel>
+                    <FormLabel className="text-sm font-medium">Message</FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="What would you like to talk about?"
-                        className="min-h-[80px]"
+                        className="min-h-[100px] resize-none rounded-lg border-border/60 focus-visible:ring-primary/30"
                         {...field}
                       />
                     </FormControl>
@@ -182,8 +190,18 @@ export function ContactFormDialog() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" disabled={isSubmitting} className="w-full">
-                {isSubmitting ? "Sending..." : "Submit"}
+              <Button 
+                type="submit" 
+                disabled={isSubmitting} 
+                className="w-full h-12 rounded-lg text-base font-medium"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...
+                  </>
+                ) : (
+                  "Submit"
+                )}
               </Button>
             </form>
           </Form>
