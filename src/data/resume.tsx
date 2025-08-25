@@ -91,7 +91,7 @@ export const DATA = {
     {
       school: "KL University",
       href: "#",
-      degree: "B.Tech in Computer Science, CGPA: 8.96",
+      degree: "B.Tech in Computer Science, CGPA: 9.03",
       logoUrl: "/image.png", // Using placeholder image
       start: "2021",
       end: "Dec 2025",
@@ -289,7 +289,7 @@ export const DATA = {
     },
     {
       title: "UI/UX Design Portfolio",
-      href: "https://bit.ly/vivek-design",
+      href: "https://www.figma.com/design/ckcPNRmz5qfWO4n8FLDTSp/Vivek-s-Portfolio?node-id=1-17294&t=wckiMmt4x4qb3prv-1",
       dates: "Jan 2023 - Present",
       active: true,
       featured: true,
@@ -314,7 +314,7 @@ export const DATA = {
       links: [
         {
           type: "Figma",
-          href: "https://bit.ly/vivek-design",
+          href: "https://www.figma.com/design/ckcPNRmz5qfWO4n8FLDTSp/Vivek-s-Portfolio?node-id=1-17294&t=wckiMmt4x4qb3prv-1",
           icon: <Icons.figma className="size-3" />,
         },
       ],

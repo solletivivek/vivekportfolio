@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+    /* Prevent horizontal scroll on mobile */
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      position: relative;
+    }
+    
     :root {
       --background: 210 40% 98%;
       --foreground: 222 47% 11%;

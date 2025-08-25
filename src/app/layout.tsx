@@ -58,7 +58,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased max-w-3xl mx-auto py-16 sm:py-32 px-6 selection:bg-primary/10",
+          "min-h-screen bg-background font-sans antialiased max-w-3xl mx-auto py-16 sm:py-32 px-6 selection:bg-primary/10 overflow-x-hidden",
           fontSans.variable
         )}
       >

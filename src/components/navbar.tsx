@@ -13,10 +13,10 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-6 flex origin-bottom h-full max-h-14">
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-6 flex origin-bottom h-full max-h-14 overflow-hidden px-2">
       <div className="fixed bottom-0 inset-x-0 h-24 w-full bg-gradient-to-t from-background via-background/90 to-transparent"></div>
       
-      <Dock className="z-50 pointer-events-auto relative mx-auto flex min-h-full h-full items-center px-3 py-1 
+      <Dock className="z-50 pointer-events-auto relative mx-auto flex min-h-full h-full items-center px-3 py-1 max-w-[calc(100vw-2rem)]
         bg-background/80 backdrop-blur-lg rounded-full border border-border/30
         [box-shadow:0_8px_20px_-12px_rgba(0,0,0,.2),0_0_1px_rgba(0,0,0,.15)]
         dark:[border:1px_solid_rgba(255,255,255,.1)] 

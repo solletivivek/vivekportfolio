@@ -60,7 +60,7 @@ export function ProjectCard({
     >
       {/* Shimmer effect for featured card */}
       {featured && (
-        <div className="absolute inset-0 z-0 opacity-30">
+        <div className="absolute inset-0 z-0 opacity-30 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent transform -skew-x-12 animate-shimmer"></div>
         </div>
       )}
@@ -86,7 +86,7 @@ export function ProjectCard({
         className={cn("block cursor-pointer relative overflow-hidden", className)}
       >
         {video && (
-          <div className="relative">
+          <div className="relative overflow-hidden">
             <video
               src={video}
               autoPlay
@@ -99,13 +99,13 @@ export function ProjectCard({
           </div>
         )}
         {image && (
-          <div className="relative">
+          <div className="relative overflow-hidden">
             <Image
               src={image}
               alt={title}
               width={500}
               height={300}
-              className="h-44 w-full overflow-hidden object-cover object-top group-hover:scale-105 transition-transform duration-700"
+              className="h-44 w-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/70"></div>
           </div>
