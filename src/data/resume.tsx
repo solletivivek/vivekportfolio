@@ -1,4 +1,3 @@
-import { Icons } from "@/components/icons";
 import { HomeIcon, NotebookIcon } from "lucide-react";
 
 export const DATA = {
@@ -43,31 +42,31 @@ export const DATA = {
       GitHub: {
         name: "GitHub",
         url: "https://github.com/solletivivek",
-        icon: Icons.github,
+        icon: "github",
         navbar: true,
       },
       LinkedIn: {
         name: "LinkedIn",
         url: "https://linkedin.com/in/solleti-vivek/",
-        icon: Icons.linkedin,
+        icon: "linkedin",
         navbar: true,
       },
       X: {
         name: "X",
         url: "#",
-        icon: Icons.x,
+        icon: "x",
         navbar: false,
       },
       Youtube: {
         name: "Youtube",
         url: "#",
-        icon: Icons.youtube,
+        icon: "youtube",
         navbar: false,
       },
       email: {
         name: "Send Email",
         url: "mailto:solletivivek@gmail.com",
-        icon: Icons.email,
+        icon: "email",
         navbar: false,
       },
     },
@@ -111,6 +110,7 @@ export const DATA = {
       href: "https://amazone-api.azurewebsites.net",
       dates: "May 2023 - July 2023",
       active: true,
+      featured: false,
       description:
         "Developed the 'Amazon Scraper API' using Node.js, enabling extraction of product details, ratings, etc., formatted as JSON. Implemented CI/CD pipeline with GitHub Actions for automated testing and deployment.",
       technologies: [
@@ -128,12 +128,12 @@ export const DATA = {
         {
           type: "Website",
           href: "https://amazone-api.azurewebsites.net",
-          icon: <Icons.globe className="size-3" />,
+          icon: "globe",
         },
         {
           type: "GitHub",
           href: "https://github.com/solletivivek/amazon-scraper-api",
-          icon: <Icons.github className="size-3" />,
+          icon: "github",
         },
       ],
       image: "",
@@ -144,6 +144,7 @@ export const DATA = {
       href: "#",
       dates: "Jan 2023 - Mar 2023",
       active: true,
+      featured: false,
       description:
         "Led the development of a comprehensive web application using Django that transforms the travel and tourism experience. Integrated CI/CD pipeline for automated testing and deployment with GitHub Actions.",
       technologies: [
@@ -163,12 +164,12 @@ export const DATA = {
         {
           type: "Website",
           href: "#",
-          icon: <Icons.globe className="size-3" />,
+          icon: "globe",
         },
         {
           type: "GitHub",
           href: "https://github.com/solletivivek/tourism-website",
-          icon: <Icons.github className="size-3" />,
+          icon: "github",
         },
       ],
       image: "",
@@ -179,6 +180,7 @@ export const DATA = {
       href: "https://aiemail-qts.netlify.app/",
       dates: "Aug 2023 - Oct 2023",
       active: true,
+      featured: false,
       description:
         "Developed a bulk email platform with AI integration for subject and content generation. Features include email tracking, management, and analytics for sent messages.",
       technologies: [
@@ -202,12 +204,12 @@ export const DATA = {
         {
           type: "Website",
           href: "https://aiemail-qts.netlify.app/",
-          icon: <Icons.globe className="size-3" />,
+          icon: "globe",
         },
         {
           type: "GitHub",
           href: "https://github.com/solletivivek/ai-email-sender",
-          icon: <Icons.github className="size-3" />,
+          icon: "github",
         },
       ],
       image: "",
@@ -218,6 +220,7 @@ export const DATA = {
       href: "https://notes-qts.netlify.app/",
       dates: "Nov 2023 - Jan 2024",
       active: true,
+      featured: false,
       description:
         "Built a Notion-like platform for creating and storing notes with advanced features for data organization and management.",
       technologies: [
@@ -239,12 +242,12 @@ export const DATA = {
         {
           type: "Website",
           href: "https://notes-qts.netlify.app/",
-          icon: <Icons.globe className="size-3" />,
+          icon: "globe",
         },
         {
           type: "GitHub",
           href: "https://github.com/solletivivek/ai-notes",
-          icon: <Icons.github className="size-3" />,
+          icon: "github",
         },
       ],
       image: "",
@@ -255,6 +258,7 @@ export const DATA = {
       href: "https://projectjason.vercel.app/",
       dates: "Feb 2024 - Mar 2024",
       active: true,
+      featured: false,
       description:
         "Designed and developed a professional landing page for a US-based agency client on Fiverr, focusing on clean design and modern UI elements.",
       technologies: [
@@ -276,12 +280,12 @@ export const DATA = {
         {
           type: "Website",
           href: "https://projectjason.vercel.app/",
-          icon: <Icons.globe className="size-3" />,
+          icon: "globe",
         },
         {
           type: "GitHub",
           href: "#",
-          icon: <Icons.github className="size-3" />,
+          icon: "github",
         },
       ],
       image: "",
@@ -315,7 +319,7 @@ export const DATA = {
         {
           type: "Figma",
           href: "https://www.figma.com/design/ckcPNRmz5qfWO4n8FLDTSp/Vivek-s-Portfolio?node-id=1-17294&t=wckiMmt4x4qb3prv-1",
-          icon: <Icons.figma className="size-3" />,
+          icon: "figma",
         },
       ],
       image: "",

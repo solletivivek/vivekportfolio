@@ -13,6 +13,21 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useRef } from "react";
 import Markdown from "react-markdown";
+import { Icons } from "@/components/icons";
+
+// Helper function to get icon component from string name
+const getIconComponent = (iconName: string) => {
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+    globe: Icons.globe,
+    github: Icons.github,
+    figma: Icons.figma,
+    linkedin: Icons.linkedin,
+    x: Icons.x,
+    youtube: Icons.youtube,
+    email: Icons.email,
+  };
+  return iconMap[iconName] || Icons.globe;
+};
 
 interface Props {
   title: string;
@@ -25,7 +40,7 @@ interface Props {
   video?: string;
   featured?: boolean;
   links?: readonly {
-    icon: React.ReactNode;
+    icon: string;
     type: string;
     href: string;
   }[];
@@ -175,7 +190,7 @@ export function ProjectCard({
                   )}
                   variant="outline"
                 >
-                  <span className="size-4">{link.icon}</span>
+                  {React.createElement(getIconComponent(link.icon), { className: "size-4" })}
                   {link.type}
                 </Badge>
               </Link>

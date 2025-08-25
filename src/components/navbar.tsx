@@ -1,3 +1,4 @@
+import React from "react";
 import { Dock, DockIcon } from "@/components/magicui/dock";
 import { ModeToggle } from "@/components/mode-toggle";
 import { buttonVariants } from "@/components/ui/button";
@@ -10,6 +11,19 @@ import {
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Icons } from "@/components/icons";
+
+// Helper function to get icon component from string name  
+const getIconComponent = (iconName: string) => {
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+    github: Icons.github,
+    linkedin: Icons.linkedin,
+    x: Icons.x,
+    youtube: Icons.youtube,
+    email: Icons.email,
+  };
+  return iconMap[iconName] || Icons.github;
+};
 
 export default function Navbar() {
   return (
@@ -60,7 +74,7 @@ export default function Navbar() {
                       "size-12 rounded-full hover:bg-primary/10 hover:text-primary transition-colors duration-300"
                     )}
                   >
-                    <social.icon className="size-5" />
+                    {React.createElement(getIconComponent(social.icon), { className: "size-5" })}
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent side="top" className="font-medium">
