@@ -24,7 +24,7 @@ export default function Page() {
                 delay={BLUR_FADE_DELAY}
                 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none gradient-text"
                 yOffset={8}
-                text={`Hi, I'm ${DATA.name.split(" ")[0]} 👋`}
+                text={`Hi, I'm ${DATA.name.split(" ")[0]}   `}
               />
               <BlurFadeText
                 className="max-w-[600px] text-lg md:text-xl text-muted-foreground"
@@ -174,6 +174,7 @@ export default function Page() {
                   tags={project.technologies}
                   image={project.image}
                   video={project.video}
+                  featured={project.featured}
                   links={project.links}
                 />
               </BlurFade>

@@ -8,9 +8,9 @@ export const DATA = {
   location: "Vaddeswaram, India",
   locationLink: "https://www.google.com/maps/place/Vaddeswaram",
   description:
-    "Final-year Computer Science student with skills in Java, Python, and C++, seeking an entry-level role in fintech.",
+    "Founder & CEO of Quick Tap Services Pvt. Ltd., building SaaS solutions for restaurants and fintech, and leading a creative agency delivering tech-driven brand experiences.",
   summary:
-    "Final-year Computer Science student with foundational skills in Java, Python, and C++, seeking an entry-level role in fintech. Passionate about applying software development knowledge to create secure, efficient applications that align with business objectives and improve user experience. Looking forward to contributing to innovative projects that drive financial technology forward, while building expertise in agile practices and scalable solutions.",
+    "Founder & CEO of Quick Tap Services Pvt. Ltd., a SaaS startup revolutionizing restaurant management with POS and AI-driven solutions. With a strong background in software development (MERN,Devops,UI/UX design), I combine technical expertise with entrepreneurial vision to build scalable, user-centric products. Alongside QTS, I also lead a creative agency that helps businesses grow through tech-enabled design and digital strategies. Passionate about solving real-world problems through innovation, I aim to create impactful solutions that streamline operations, enhance customer experiences, and drive business growth",
   avatarUrl: "/me.png",
   skills: [
     "C",
@@ -292,6 +292,7 @@ export const DATA = {
       href: "https://bit.ly/vivek-design",
       dates: "Jan 2023 - Present",
       active: true,
+      featured: true,
       description:
         "Comprehensive collection of UI/UX design projects showcasing my expertise in wireframing, prototyping, user research, and creating intuitive interfaces with focus on user experience and modern design principles.",
       technologies: [
