@@ -1,0 +1,90 @@
+---
+title: "How to Deploy Your Website on GitHub Pages and Add a Custom Domain"
+publishedAt: "2025-08-25"
+summary: "Step-by-step guide to deploying your website on GitHub Pages and making it professional with a custom domain."
+---
+
+Launching a website is an exciting step in establishing your online presence, but it can also be a daunting process, especially if you’re new to web development and hosting. Thankfully, **GitHub Pages** provides an easy and free solution for hosting your website, and you can even use a custom domain to make it more professional.  
+
+In this guide, we’ll walk through the steps to deploy your website on GitHub Pages and manage DNS records for a custom domain.
+
+---
+
+## ✅ Prerequisites  
+
+Before starting, make sure you have:  
+
+- A **GitHub account** ([sign up here](https://github.com) if you don’t have one).  
+- A **GitHub repository** containing your website’s source code.  
+- A **custom domain** (from GoDaddy, Namecheap, Google Domains, etc.).  
+
+---
+
+## 🚀 Deploying Your Website on GitHub Pages  
+
+1. **Create a Repository**  
+   - Name it in the format:  
+     ```txt
+     yourusername.github.io
+     ```  
+
+2. **Upload Website Files**  
+   - Push your website source code to the repo.  
+   - Ensure the entry file is `index.html`.  
+
+3. **Enable GitHub Pages**  
+   - Go to **Settings > Pages**.  
+   - Select the branch (`main` or `master`) and save.  
+
+4. **Wait for Deployment**  
+   - GitHub will build and deploy your site automatically.  
+
+5. **Access Your Website**  
+   - Open:  
+     ```txt
+     https://yourusername.github.io
+     ```
+
+---
+
+## 🌍 Adding a Custom Domain  
+
+1. **Purchase a Domain**  
+   - From a registrar (e.g., GoDaddy, Namecheap).  
+
+2. **Update DNS Records**  
+   - Login to your registrar’s DNS management.  
+   - Add **A Records** pointing to GitHub’s IPs:  
+
+     | Record Type | Host | Value            |
+     | ----------- | ---- | ---------------- |
+     | A           | @    | 185.199.108.153 |
+     | A           | @    | 185.199.109.153 |
+     | A           | @    | 185.199.110.153 |
+     | A           | @    | 185.199.111.153 |
+
+   - Add a **CNAME Record**:  
+     ```txt
+     Host: www  
+     Value: yourusername.github.io
+     ```
+
+3. **Configure GitHub Repository**  
+   - Go to **Settings > Pages > Custom Domain**.  
+   - Enter your domain (e.g., `www.svivek.tech`) and save.  
+
+4. **Wait for DNS Propagation**  
+   - Changes may take up to **48 hours**.  
+
+5. **Verify Your Domain**  
+   - Visit `www.yourdomain.com` to confirm it works.  
+
+---
+
+## 🎉 Conclusion  
+
+Deploying your website on **GitHub Pages** and adding a **custom domain** is a simple yet powerful way to showcase your work to the world.  
+
+👉 Check out my portfolio at [www.svivek.tech](http://www.svivek.tech) for examples of my projects.  
+Feel free to reach out if you need help on your web development journey. 🚀  
+
