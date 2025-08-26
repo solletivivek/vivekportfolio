@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Dock, DockIcon } from "@/components/magicui/dock";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -11,6 +13,7 @@ import {
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Icons } from "@/components/icons";
 
 // Helper function to get icon component from string name  
@@ -26,6 +29,8 @@ const getIconComponent = (iconName: string) => {
 };
 
 export default function Navbar() {
+  const pathname = usePathname();
+  
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-6 flex origin-bottom h-full max-h-14 overflow-hidden px-2">
       <div className="fixed bottom-0 inset-x-0 h-24 w-full bg-gradient-to-t from-background via-background/90 to-transparent"></div>
@@ -44,10 +49,15 @@ export default function Navbar() {
                   href={item.href}
                   className={cn(
                     buttonVariants({ variant: "ghost", size: "icon" }),
-                    "size-12 rounded-full hover:bg-primary/10 hover:text-primary transition-colors duration-300"
+                    "size-12 rounded-full hover:bg-primary/10 hover:text-primary transition-colors duration-300 relative"
                   )}
                 >
                   <item.icon className="size-5" />
+                  {(item.href.includes('/blog') || item.label?.toLowerCase().includes('blog')) && (
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-900 rounded-full animate-pulse">
+                      <div className="absolute inset-0 bg-primary rounded-full animate-ping opacity-75"></div>
+                    </div>
+                  )}
                 </Link>
               </TooltipTrigger>
               <TooltipContent side="top" className="font-medium">
