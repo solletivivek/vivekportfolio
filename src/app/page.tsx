@@ -269,7 +269,7 @@ export default function Page() {
                   <div className="inline-flex items-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>{DATA.blogs?.length || 2}+ Posts</span>
+                        <span>5+ Posts</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
