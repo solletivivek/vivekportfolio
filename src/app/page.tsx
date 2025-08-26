@@ -32,6 +32,15 @@ export default function Page() {
                 delay={BLUR_FADE_DELAY}
                 text={DATA.description}
               />
+              <BlurFade delay={BLUR_FADE_DELAY * 2}>
+                <Link
+                  href="/blog"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-sm font-medium border border-primary/20 hover:border-primary/30 transition-all duration-300 hover:scale-105 w-fit"
+                >
+                  <NotebookIcon className="w-4 h-4" />
+                  View Blog
+                </Link>
+              </BlurFade>
             </div>
             <BlurFade delay={BLUR_FADE_DELAY}>
               <Avatar className="size-28 border border-border/60 shadow-xl animate-float">
