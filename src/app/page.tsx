@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
 import Markdown from "react-markdown";
+import { NotebookIcon } from "lucide-react";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -218,6 +219,83 @@ export default function Page() {
                 </BlurFade>
               ))}
             </ul>
+          </BlurFade>
+        </div>
+      </section>
+
+      <section id="blog-banner" className="scroll-mt-16">
+        <div className="space-y-12 w-full py-12">
+          <BlurFade delay={BLUR_FADE_DELAY * 18}>
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-background to-primary/5 border border-primary/20 p-8 md:p-12">
+              {/* Background decoration */}
+              <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-primary/20 to-transparent rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-500/10 to-transparent rounded-full blur-2xl"></div>
+              
+              {/* Content */}
+              <div className="relative z-10 flex flex-col items-center text-center space-y-6">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium border border-primary/20">
+                  <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                  Latest Blog Posts
+                </div>
+                
+                <div className="space-y-4 max-w-2xl">
+                  <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+                    Explore My <span className="gradient-text">Tech Journey</span>
+                  </h2>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    Dive into my latest insights on web development, AWS deployments, and tech tutorials. 
+                    I share practical guides, coding tips, and lessons learned from building real-world applications.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                  <Link
+                    href="/blog"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  >
+                    <NotebookIcon className="w-4 h-4" />
+                    Read My Blog
+                  </Link>
+                  <div className="inline-flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span>{DATA.blogs?.length || 2}+ Posts</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span>Weekly Updates</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Recent posts preview */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl pt-6">
+                  <div className="bg-background/50 backdrop-blur-sm rounded-2xl p-4 border border-border/50 hover:border-primary/30 transition-colors group">
+                    <div className="space-y-2">
+                      <div className="text-xs text-primary font-medium">Latest</div>
+                      <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">
+                        Deploying Portfolio with AWS S3 + CloudFront
+                      </h3>
+                      <p className="text-xs text-muted-foreground line-clamp-2">
+                        Complete guide with commands, configs, and CI/CD setup
+                      </p>
+                    </div>
+                  </div>
+                  <div className="bg-background/50 backdrop-blur-sm rounded-2xl p-4 border border-border/50 hover:border-primary/30 transition-colors group">
+                    <div className="space-y-2">
+                      <div className="text-xs text-green-600 font-medium">Popular</div>
+                      <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">
+                        GitHub Pages with Custom Domain
+                      </h3>
+                      <p className="text-xs text-muted-foreground line-clamp-2">
+                        Step-by-step guide to professional website hosting
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </BlurFade>
         </div>
       </section>
