@@ -1,0 +1,366 @@
+---
+title: "Deploying Your First Portfolio Website with AWS S3 + CloudFront"
+publishedAt: "2025-08-26"
+summary: "A complete, step-by-step guide (with commands, configs, and CI/CD) to deploy a static Next.js portfolio on AWS S3 + CloudFront."
+tags: ["Next.js", "AWS", "S3", "CloudFront", "Hosting", "DevOps"]
+---
+
+# Deploying Your First Portfolio Website with AWS S3 + CloudFront
+
+This guide shows **two ways** to deploy your portfolio:
+
+- **Path A (5-minute Quick Deploy):** Public S3 Static Website Hosting (simple, great for prototypes).
+- **Path B (Production-grade):** **CloudFront CDN + Private S3 (OAC)** + Custom Domain + HTTPS.
+
+Everything here is copy-paste ready.
+
+---
+
+## ✅ Prerequisites
+
+- **Node 18+** and **npm** or **pnpm**
+- A **Next.js** (or static) portfolio
+- **AWS account**
+- **AWS CLI** installed and configured
+
+```bash
+# Install AWS CLI (if needed) and configure
+aws --version
+aws configure
+# Provide AWS Access Key ID, Secret, region (e.g., ap-south-1), and json output
+```
+
+---
+
+## 1) Make Next.js Output a Static Site
+
+> Works with both `pages/` and `app/` routers.
+
+**`next.config.mjs`**
+
+```js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',            // tells Next.js to generate static HTML
+  images: { unoptimized: true }, // required for export if you're using next/image
+  trailingSlash: true,           // recommended for S3/CF so directories map cleanly
+};
+export default nextConfig;
+```
+
+**`package.json` scripts**
+
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next export",
+    "build:static": "next build && next export"
+  }
+}
+```
+
+**Build your site**
+
+```bash
+npm run build:static
+# Output will be in the ./out folder
+```
+
+---
+
+## 2) Project Structure to Upload
+
+After export, you should have:
+
+```
+your-portfolio/
+  ├─ out/                 # <-- upload this folder to AWS
+  │   ├─ index.html
+  │   ├─ 404.html (optional)
+  │   ├─ about/index.html
+  │   └─ _next/...
+  ├─ next.config.mjs
+  └─ package.json
+```
+
+---
+
+## PATH A — Quick Deploy (Public S3 Static Website)
+
+> Fastest way to get a live URL. Best for demos and internal previews.
+
+### A1) Create an S3 Bucket (public)
+
+* Bucket name **must be globally unique** (example: `qts-portfolio-aug-2025`)
+* Region: pick near you (e.g., `ap-south-1`)
+
+```bash
+# Create bucket (replace with your bucket name and region)
+aws s3 mb s3://qts-portfolio-aug-2025 --region ap-south-1
+```
+
+### A2) Disable "Block Public Access" and Add Bucket Policy
+
+> **Warning:** This makes the bucket public. OK for quick deploys; not recommended for production.
+
+**Minimal public-read policy** (`BUCKET_NAME` → your bucket):
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Sid": "PublicReadForStaticWebsite",
+    "Effect": "Allow",
+    "Principal": "*",
+    "Action": "s3:GetObject",
+    "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+  }]
+}
+```
+
+Apply in **S3 → Permissions → Bucket policy**.
+
+### A3) Enable Static Website Hosting
+
+* **S3 → Properties → Static website hosting → Enable**
+* **Index document:** `index.html`
+* **Error document:** `404.html` (or `index.html` for SPA fallback)
+
+You’ll get a website endpoint like:
+
+```
+http://BUCKET_NAME.s3-website-REGION.amazonaws.com
+```
+### A4) Upload Your Build
+
+```bash
+# From your project root:
+aws s3 sync ./out s3://qts-portfolio-aug-2025 --delete
+```
+
+**Done.** Your site is live at the S3 website endpoint.
+
+---
+
+## PATH B — Production Setup (CloudFront + Private S3 + HTTPS)
+
+> Best practice: bucket stays **private**, CloudFront serves content with **OAC**, plus **custom domain** + **HTTPS**.
+
+### B1) Create a Private S3 Bucket
+
+```bash
+aws s3 mb s3://qts-portfolio-prod --region ap-south-1
+# Keep "Block Public Access" = ON (default). Do NOT add any public policy.
+```
+
+### B2) Create a CloudFront Distribution with OAC
+
+In **CloudFront → Create distribution**:
+
+1. **Origin domain**: choose your bucket’s REST endpoint (not website endpoint) — looks like `qts-portfolio-prod.s3.ap-south-1.amazonaws.com`.
+2. **Origin access**: Create a new **Origin Access Control (OAC)** and attach it.
+3. **Bucket policy**: In the wizard, click **“Update bucket policy”** so CloudFront can read the bucket.
+4. **Default root object**: `index.html`
+5. **Viewer protocol policy**: Redirect HTTP to HTTPS
+6. **Cache policy**: Use the Managed CachingOptimized policy (good default)
+
+After creation, you’ll get a domain like:
+
+```
+https://dXXXXXXXXXXXX.cloudfront.net
+```
+
+### (Reference) If you need the OAC Bucket Policy manually
+
+Replace `BUCKET_NAME`, `ACCOUNT_ID`, `DISTRIBUTION_ID`:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Sid": "AllowCloudFrontServiceOAC",
+    "Effect": "Allow",
+    "Principal": { "Service": "cloudfront.amazonaws.com" },
+    "Action": "s3:GetObject",
+    "Resource": "arn:aws:s3:::BUCKET_NAME/*",
+    "Condition": {
+      "StringEquals": {
+        "AWS:SourceArn": "arn:aws:cloudfront::ACCOUNT_ID:distribution/DISTRIBUTION_ID"
+      }
+    }
+  }]
+}
+```
+
+### B3) Upload Your Build to S3
+
+```bash
+# Upload static build output
+aws s3 sync ./out s3://qts-portfolio-prod --delete
+```
+
+### B4) SPA/Next.js Routing (Optional but Recommended)
+
+For client-side routing (e.g., `/about`), configure **Custom error responses** in CloudFront:
+
+* Add for **403** and **404**:
+  * **Response code:** 200
+  * **Response page path:** `/index.html`
+  * **TTL:** 0
+
+This serves `index.html` when deep links miss an exact file, letting the SPA handle routing.
+
+### B5) Set Proper Caching (HTML vs Assets)
+
+* **HTML** (index and pages): short cache (e.g., 5–60 seconds)
+* **Static assets** (`/_next`, images, css, js): long cache (e.g., 1 year) with immutable filenames
+
+You can set **Cache-Control** when uploading:
+
+```bash
+# HTML short cache
+aws s3 cp ./out/index.html s3://qts-portfolio-prod/index.html --cache-control "public, max-age=60" --content-type "text/html"
+aws s3 cp ./out/404.html  s3://qts-portfolio-prod/404.html  --cache-control "public, max-age=60" --content-type "text/html" || true
+
+# Long cache for everything else
+aws s3 cp ./out s3://qts-portfolio-prod --recursive --exclude "index.html" --exclude "404.html" --cache-control "public, max-age=31536000, immutable"
+```
+
+> Tip: You can also create separate **CloudFront Behaviors** for `/_next/*` with longer TTLs.
+
+### B6) Invalidate CloudFront Cache on New Deploys
+
+```bash
+aws cloudfront create-invalidation --distribution-id DISTRIBUTION_ID --paths "/*"
+```
+
+## 3) Add a Custom Domain + HTTPS (ACM + Route 53)
+
+### C1) Request a Certificate in **us-east-1**
+
+CloudFront requires the certificate in **N. Virginia (us-east-1)**:
+
+```bash
+# Open AWS Console → Certificate Manager (us-east-1) → Request public certificate
+# Add your domain(s): e.g., portfolio.quicktap.live and/or quicktap.live
+# Use DNS validation; add CNAMEs in your DNS (Route 53 or your registrar)
+```
+
+### C2) Attach the Certificate to CloudFront
+
+* In CloudFront **Distribution settings → Alternate domain names (CNAMEs)**:
+  * Add your domain(s): `portfolio.quicktap.live`
+  * Choose the **ACM certificate** you just created (us-east-1)
+  * Save and deploy
+
+### C3) Point DNS to CloudFront
+
+* If using **Route 53**, create an **A/AAAA Alias** record to your CloudFront distribution.
+* If using another registrar (e.g., GoDaddy/Namecheap), create a **CNAME** to the CloudFront domain.
+
+Wait for DNS propagation → open `https://yourdomain.com`.
+
+---
+
+## 4) (Optional) CI/CD with GitHub Actions
+
+**.github/workflows/deploy.yml**
+
+```yaml
+name: Deploy to S3 + Invalidate CloudFront
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build static site
+        run: npm run build:static
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ap-south-1
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }} # or use access keys via secrets
+
+      - name: Sync HTML (short cache)
+        run: |
+          aws s3 cp ./out/index.html s3://qts-portfolio-prod/index.html --cache-control "public, max-age=60" --content-type "text/html"
+          if [ -f "./out/404.html" ]; then
+            aws s3 cp ./out/404.html s3://qts-portfolio-prod/404.html --cache-control "public, max-age=60" --content-type "text/html"
+          fi
+
+      - name: Sync assets (long cache)
+        run: |
+          aws s3 sync ./out s3://qts-portfolio-prod --delete \
+            --exclude "index.html" --exclude "404.html" \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - name: Invalidate CloudFront
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} --paths "/*"
+```
+
+> Store secrets in **GitHub → Settings → Secrets and variables → Actions**:
+>
+> * `AWS_ROLE_ARN` (recommended) or `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY`
+> * `CF_DISTRIBUTION_ID`
+
+---
+
+## 5) Troubleshooting
+
+* **White page / 403 on deep links**  
+  Add **Custom error responses** (403/404 → 200 with `/index.html`) in CloudFront.
+
+* **Images not loading**  
+  Ensure `images.unoptimized = true` in `next.config.mjs` when exporting.
+
+* **URL ends without slash shows XML or 404**  
+  Set `trailingSlash: true` to map `/about/` → `about/index.html`.
+
+* **Old files still served**  
+  Run a **CloudFront invalidation** after deploys.
+
+* **MIME types incorrect**  
+  Use `--content-type` for HTML and any special assets (e.g., fonts).
+
+---
+
+## 6) Cleanup (to avoid charges)
+
+* **Delete** old distributions, buckets, certificates not in use.
+* **Empty S3** before deleting the bucket:
+
+  ```bash
+  aws s3 rm s3://qts-portfolio-prod --recursive
+  aws s3 rb s3://qts-portfolio-prod
+  ```
+
+---
+
+## Recap
+
+* **Path A:** Fast public S3 website → great for demos.
+* **Path B:** Production CloudFront + Private S3 (OAC) → **HTTPS**, **CDN**, **private bucket**, **custom domain**.
+
+Now your portfolio is fast, global, and secure. Ship it 🚀
