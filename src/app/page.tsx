@@ -32,15 +32,19 @@ export default function Page() {
                 delay={BLUR_FADE_DELAY}
                 text={DATA.description}
               />
-              <BlurFade delay={BLUR_FADE_DELAY * 2}>
+                <BlurFade delay={BLUR_FADE_DELAY * 2}>
                 <Link
                   href="/blog"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-sm font-medium border border-primary/20 hover:border-primary/30 transition-all duration-300 hover:scale-105 w-fit"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-sm font-medium border border-primary/20 hover:border-primary/30 transition-all duration-300 hover:scale-105 w-fit relative overflow-hidden"
                 >
                   <NotebookIcon className="w-4 h-4" />
                   View Blog
+                  <span className="relative inline-flex items-center px-2 py-0.5 text-xs font-bold text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-full ml-1">
+                  <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full animate-pulse"></span>
+                  <span className="relative">NEW</span>
+                  </span>
                 </Link>
-              </BlurFade>
+                </BlurFade>
             </div>
             <BlurFade delay={BLUR_FADE_DELAY}>
               <Avatar className="size-28 border border-border/60 shadow-xl animate-float">
