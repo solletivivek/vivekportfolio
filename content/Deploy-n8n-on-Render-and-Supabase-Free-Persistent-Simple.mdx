@@ -1,0 +1,200 @@
+---
+title: "Deploy n8n on Render + Supabase (Free, Persistent, Simple)"
+publishedAt: "2025-08-29"
+summary: "A clean, step-by-step guide for deploying n8n on Render with Supabase Postgres for persistent storage, all on free tiers."
+---
+
+# Deploy n8n on Render + Supabase (Free, Persistent, Simple)
+
+Here's a clean, step-by-step guide based on what actually worked in our setup—using **Render** to host n8n and **Supabase Postgres** for persistent storage, all on free tiers.
+
+---
+
+## What you'll need
+
+* A **Supabase** account (free)
+* A **Render** account (free)
+* A generated **256-bit encryption key** (for n8n credentials)
+* 10–15 minutes
+
+---
+
+## Create your Supabase project
+
+1. Go to Supabase → **New Project**
+2. Choose a region close to you (e.g., Mumbai `ap-south-1` or a US region)
+3. Set a strong **database password** and save it
+4. After the project is ready, open **Project Settings → Database → Connection Info**
+5. Copy the **pooler** connection details (host + port):
+
+   * **Session pooler**: port `5432` (best to run migrations and for long-lived connections)
+   * **Transaction pooler**: port `6543` (works well after initial setup)
+
+> Tip: Supabase requires **SSL** for external connections.
+
+---
+
+## Create the n8n service on Render
+
+1. In Render Dashboard: **New → Web Service → Deploy an existing image**
+2. **Image**: `docker.n8n.io/n8nio/n8n`
+   *(This is the new official registry; it fixed startup issues for us compared to the old `n8nio/n8n`.)*
+3. Choose a name and region near your Supabase region
+4. Plan: **Free** (you can upgrade later)
+
+---
+
+## Add environment variables on Render
+
+### Option A — Start with **Session Pooler** (recommended for first boot)
+
+Use this first so n8n can run database migrations smoothly.
+
+```env
+# Database (Supabase - Session Pooler)
+DB_TYPE=postgresdb
+DB_POSTGRESDB_HOST=your-supabase-pooler-host   # e.g. aws-1-ap-south-1.pooler.supabase.com
+DB_POSTGRESDB_PORT=5432
+DB_POSTGRESDB_DATABASE=postgres
+DB_POSTGRESDB_SCHEMA=public
+DB_POSTGRESDB_USER=your-supabase-user          # e.g. postgres.xxxxxxxx
+DB_POSTGRESDB_PASSWORD=your-supabase-password
+
+# SSL (Supabase requires it)
+DB_POSTGRESDB_SSL_ENABLED=true
+DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED=false
+
+# Connection tuning (safer defaults for free tiers)
+DB_POSTGRESDB_POOL_SIZE=5
+DB_POSTGRESDB_CONNECTION_TIMEOUT=60000
+DB_POSTGRESDB_IDLE_CONNECTION_TIMEOUT=30000
+
+# Timezone (example: Mumbai)
+GENERIC_TIMEZONE=Asia/Kolkata
+TZ=Asia/Kolkata
+
+# n8n basics
+N8N_ENCRYPTION_KEY=your-256-bit-key
+N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+N8N_PROTOCOL=https
+```
+
+Deploy once with the **session pooler**. When n8n starts the first time, it creates its tables and completes migrations.
+
+### Option B — (Optional) Switch to **Transaction Pooler** after first successful boot
+
+If you want to move to the transaction pooler later:
+
+```env
+DB_POSTGRESDB_PORT=6543
+```
+
+*(Keep the rest as-is.)*
+
+> 🛡️ **Keep your `N8N_ENCRYPTION_KEY` safe.** If you ever redeploy, using the same key lets you decrypt previously saved credentials.
+
+---
+
+## First deploy
+
+* Click **Deploy Web Service**
+* If you see "**n8n is starting up. Please wait**" for a bit on first boot, that's normal while migrations run
+* If it doesn't come up, see **Troubleshooting** below
+
+---
+
+## Set your external webhook URL
+
+After Render gives you a public URL, add this variable and redeploy:
+
+```env
+WEBHOOK_URL=https://your-render-service.onrender.com
+```
+
+> Use **`WEBHOOK_URL`** (that's the one n8n recognizes).
+> There is **no** `N8N_WEBHOOK_URL` in the official env list.
+
+---
+
+## Finish setup in the n8n UI
+
+1. Open your Render URL
+2. Create the first user (email + password)
+3. Log in to n8n and you're good to go
+4. Create a quick **Webhook** workflow and test it (e.g., with Postman or curl)
+
+---
+
+## Why these settings worked (key learnings)
+
+* **Docker image**: Switching to `docker.n8n.io/n8nio/n8n` resolved startup/UI glitches seen with the older `n8nio/n8n` image
+* **Session vs Transaction pooler**:
+
+  * Use **5432 (session)** for first boot so migrations complete reliably
+  * You can switch to **6543 (transaction)** later if you prefer
+* **SSL is mandatory** for Supabase external access: `DB_POSTGRESDB_SSL_ENABLED=true` (+ often `DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED=false` on managed hosts)
+* **Timeouts/pool size**: Slightly higher connection timeout and small pool keep things stable on free tiers
+* **WEBHOOK\_URL**: Use the correct variable name so external webhooks resolve to your public Render URL
+
+---
+
+## Troubleshooting (copy-paste fixes)
+
+**`ECONNREFUSED <ip>:6543` or `:5432`**
+
+* Wrong port/host or DB down
+* Try session pooler (`5432`) first
+* Confirm host is the **pooler host** from Supabase
+* Ensure SSL vars are set (see above)
+
+**"Could not establish database connection within 20,000 ms"**
+
+* Add/increase timeout:
+  `DB_POSTGRESDB_CONNECTION_TIMEOUT=60000`
+* Ensure `DB_POSTGRESDB_SSL_ENABLED=true`
+* Verify user/password and that you're using the pooler endpoint
+
+**Stuck on "n8n is starting up. Please wait"**
+
+* Use **session pooler (5432)** for the first deploy so migrations run
+* Check logs in Render; usually it's DB connect/SSL issues
+* After a successful first boot, you can switch to the transaction pooler (6543) if desired
+
+**Render says "No open ports detected"**
+
+* That usually means n8n crashed before starting its HTTP server—most often due to DB connection issues. Fix DB/env and redeploy
+
+---
+
+## Optional: one-file "transaction pooler" sample env
+
+*(Use after you've booted at least once with the session pooler, or if you know 6543 works for you.)*
+
+```env
+DB_TYPE=postgresdb
+DB_POSTGRESDB_HOST=your-supabase-pooler-host
+DB_POSTGRESDB_PORT=6543
+DB_POSTGRESDB_DATABASE=postgres
+DB_POSTGRESDB_SCHEMA=public
+DB_POSTGRESDB_USER=your-supabase-user
+DB_POSTGRESDB_PASSWORD=your-supabase-password
+DB_POSTGRESDB_SSL_ENABLED=true
+DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED=false
+DB_POSTGRESDB_POOL_SIZE=5
+DB_POSTGRESDB_CONNECTION_TIMEOUT=60000
+DB_POSTGRESDB_IDLE_CONNECTION_TIMEOUT=30000
+GENERIC_TIMEZONE=Asia/Kolkata
+TZ=Asia/Kolkata
+N8N_ENCRYPTION_KEY=your-256-bit-key
+N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+N8N_PROTOCOL=https
+WEBHOOK_URL=https://your-render-service.onrender.com
+```
+
+---
+
+## Final notes
+
+* Keep your **Supabase password** and **n8n encryption key** safe
+* Free Render services can sleep; opening the URL wakes them
+* If you ever change regions, create a **new Supabase project** in that region and update your env variables

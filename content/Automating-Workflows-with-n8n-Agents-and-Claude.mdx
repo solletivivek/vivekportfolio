@@ -1,0 +1,139 @@
+---
+title: "Automating Workflows with n8n Agents and Claude"
+publishedAt: "2025-08-29"
+summary: "A complete step-by-step guide on how to set up n8n with Claude AI to build smart automation agents in your Next.js portfolio project."
+---
+
+# Automating Workflows with n8n Agents and Claude
+
+Automation is one of the most powerful ways to increase productivity. With **n8n** (a fair-code automation tool) and **Claude** (an AI assistant from Anthropic), you can build custom workflow agents that handle repetitive tasks, respond intelligently to inputs, and integrate with your applications—like your Next.js portfolio project.
+
+In this guide, we'll cover:
+
+- What n8n agents are  
+- Why Claude is useful inside n8n  
+- How to set up n8n locally with Docker  
+- Connecting Claude to n8n using API keys  
+- Building a sample automation agent  
+
+---
+
+## What Are n8n Agents?
+
+**Agents** in n8n are workflows that continuously run or get triggered by events. You can connect services like Slack, Notion, Supabase, or databases. Adding **Claude AI** as part of an n8n workflow allows natural language reasoning inside your automations.
+
+Example use cases:
+- Summarize customer feedback automatically  
+- Generate blog drafts and push them to GitHub  
+- Auto-reply to inquiries from your portfolio website  
+
+---
+
+## Why Use Claude with n8n?
+
+Claude brings **contextual understanding** and **reasoning** into workflows. Instead of rigid rules, your automation can "think" about inputs.
+
+Example:  
+- Input → "Generate a blog on REST API basics"  
+- Claude → Writes a structured draft in Markdown  
+- n8n → Publishes it to your `/blog` folder in your Next.js portfolio  
+
+---
+
+## Setting Up n8n Locally
+
+### Install Docker
+
+Make sure Docker is installed and running on your machine.  
+
+```bash
+docker --version
+```
+
+### Create an `.env` File
+
+In your project root, add:
+
+```bash
+DB_TYPE=postgresdb
+DB_POSTGRESDB_HOST=your-supabase-host
+DB_POSTGRESDB_PORT=6543
+DB_POSTGRESDB_USER=your-username
+DB_POSTGRESDB_PASSWORD=your-password
+DB_POSTGRESDB_DATABASE=your-database
+```
+
+### Start n8n with Docker
+
+```bash
+docker run -it --rm \
+  --name n8n \
+  -p 5678:5678 \
+  --env-file .env \
+  docker.n8n.io/n8nio/n8n
+```
+
+Visit: [http://localhost:5678](http://localhost:5678)
+
+---
+
+## Adding Claude API to n8n
+
+1. Sign up at [Anthropic](https://www.anthropic.com)
+2. Generate your **Claude API key**
+3. In n8n, go to **Credentials > Add Credential**
+4. Select **HTTP Request** → Add your API key in `Authorization: Bearer <API_KEY>`
+
+---
+
+## Building Your First Agent
+
+### Example: Blog Draft Generator for Your Portfolio
+
+1. **Trigger Node** → Webhook (`/blog`)
+2. **Claude Node** → Pass the input text (e.g., *"Write a blog about REST APIs"*)
+3. **Function Node** → Format the response into `.mdx`
+4. **GitHub Node** → Push the file into your `portfolio/blogs/` folder
+
+```json
+{
+  "name": "Blog Draft Generator",
+  "nodes": [
+    { "type": "Webhook", "path": "blog" },
+    { "type": "Claude", "prompt": "Write blog on {{query}}" },
+    { "type": "Function", "code": "format into MDX" },
+    { "type": "GitHub", "action": "createFile" }
+  ]
+}
+```
+
+---
+
+## Using in Your Next.js Portfolio
+
+Blogs created by the agent are stored inside `/blogs` as `.mdx`. Your Next.js site automatically picks them up and displays them. You now have an **AI-powered blog system** that runs on autopilot.
+
+---
+
+## Best Practices
+
+**Rate Limits**: Claude has usage limits, add retry logic in n8n.  
+**Version Control**: Always commit generated `.mdx` files into GitHub.  
+**Security**: Keep API keys in `.env`, never hardcoded.
+
+---
+
+## Conclusion
+
+By combining **n8n agents** with **Claude AI**, you create a powerful automation layer that enhances your Next.js portfolio project. Instead of manually writing and uploading blogs, your AI agent can handle it end-to-end—from drafting to publishing.
+
+This setup not only saves time but also **demonstrates your technical expertise** in automation and AI integration.
+
+---
+
+```bash
+# Next Step: Try building a "Portfolio Contact Agent" 
+# that reads form submissions and drafts personalized replies with Claude
+```
+
+Would you like me to also **create a ready-to-run `.mdx` agent workflow JSON file** that you can import into n8n directly and test this blog system?

@@ -39,14 +39,30 @@ export async function markdownToHTML(markdown: string) {
 }
 
 export async function getPost(slug: string) {
-  const filePath = path.join("content", `${slug}.mdx`);
-  let source = fs.readFileSync(filePath, "utf-8");
+  // Decode URL-encoded slug to handle special characters
+  const decodedSlug = decodeURIComponent(slug);
+  const filePath = path.join("content", `${decodedSlug}.mdx`);
+
+  // Check if file exists, if not try with original slug
+  let source: string;
+  try {
+    source = fs.readFileSync(filePath, "utf-8");
+  } catch (error) {
+    // Try with original slug if decoded version doesn't exist
+    const fallbackPath = path.join("content", `${slug}.mdx`);
+    try {
+      source = fs.readFileSync(fallbackPath, "utf-8");
+    } catch (fallbackError) {
+      throw new Error(`Blog post not found: ${slug}`);
+    }
+  }
+
   const { content: rawContent, data: metadata } = matter(source);
   const content = await markdownToHTML(rawContent);
   return {
     source: content,
     metadata,
-    slug,
+    slug: decodedSlug,
   };
 }
 
