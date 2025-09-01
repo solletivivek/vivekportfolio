@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
   verification: {
-    google: "google-site-verification-code-here", // You'll need to add your actual verification code
+    google: "googleebc829c18e61bddf", // Your actual verification code
     yandex: "",
   },
   alternates: {
