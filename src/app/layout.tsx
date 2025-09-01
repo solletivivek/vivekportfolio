@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
   verification: {
-    google: "",
+    google: "google-site-verification-code-here", // You'll need to add your actual verification code
     yandex: "",
   },
   alternates: {
@@ -63,6 +63,31 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Solleti Vivek",
+              "alternateName": ["Vivek Solleti", "Solleti Vivek"],
+              "url": "https://solletivivek.vercel.app",
+              "jobTitle": "Founder & CEO",
+              "worksFor": {
+                "@type": "Organization",
+                "name": "Quick Tap Services Pvt. Ltd."
+              },
+              "description": "Founder & CEO of Quick Tap Services Pvt. Ltd., building SaaS solutions for restaurants and fintech, and leading a creative agency delivering tech-driven brand experiences.",
+              "knowsAbout": ["Web Development", "React", "Next.js", "AWS", "Node.js", "JavaScript", "TypeScript", "Software Engineering", "SaaS", "Fintech"],
+              "sameAs": [
+                "https://linkedin.com/in/viveksolleti",
+                "https://github.com/solletivivek"
+              ]
+            })
+          }}
+        />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased max-w-3xl mx-auto py-16 sm:py-32 px-6 selection:bg-primary/10 overflow-x-hidden",

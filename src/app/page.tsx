@@ -11,6 +11,38 @@ import { DATA } from "@/data/resume";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import { NotebookIcon } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: `${DATA.name} - Founder & CEO | Software Engineer`,
+  description: `${DATA.name} - Founder & CEO of Quick Tap Services Pvt. Ltd. Expert in web development, React, Next.js, AWS. Building SaaS solutions for restaurants and fintech.`,
+  keywords: `Solleti Vivek, Vivek Solleti, Quick Tap Services, CEO, Founder, Software Engineer, Web Developer, React Developer, Next.js, AWS, SaaS, Fintech, Restaurant Technology, MERN Stack, JavaScript, TypeScript`,
+  authors: [{ name: DATA.name }],
+  creator: DATA.name,
+  openGraph: {
+    title: `${DATA.name} - Founder & CEO | Software Engineer`,
+    description: `${DATA.name} - Founder & CEO of Quick Tap Services Pvt. Ltd. Expert in web development, React, Next.js, AWS.`,
+    url: DATA.url,
+    siteName: `${DATA.name} Portfolio`,
+    type: "profile",
+    images: [
+      {
+        url: `${DATA.url}/me.png`,
+        width: 400,
+        height: 400,
+        alt: DATA.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: `${DATA.name} - Founder & CEO`,
+    description: `${DATA.name} - Building SaaS solutions and leading tech innovations`,
+  },
+  alternates: {
+    canonical: DATA.url,
+  },
+};
 
 const BLUR_FADE_DELAY = 0.04;
 

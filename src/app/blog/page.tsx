@@ -5,26 +5,26 @@ import BlurFade from "@/components/magicui/blur-fade";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Tech Blog | Vivek Portfolio - Web Development & Programming Insights",
+  title: "Tech Blog | Solleti Vivek - Web Development & Programming Insights",
   description:
     "Explore my latest articles on web development, AWS deployments, React, Next.js, and programming tutorials. Learn from real-world projects and technical insights.",
   keywords:
-    "web development blog, programming tutorials, React, Next.js, AWS, deployment guides, tech insights, software engineering, JavaScript, TypeScript, coding tips, portfolio deployment, CloudFront, S3",
-  authors: [{ name: "Vivek" }],
-  creator: "Vivek",
-  publisher: "Vivek",
+    "Solleti Vivek, web development blog, programming tutorials, React, Next.js, AWS, deployment guides, tech insights, software engineering, JavaScript, TypeScript, coding tips, portfolio deployment, CloudFront, S3",
+  authors: [{ name: "Solleti Vivek" }],
+  creator: "Solleti Vivek",
+  publisher: "Solleti Vivek",
   openGraph: {
-    title: "Tech Blog | Vivek Portfolio",
+    title: "Tech Blog | Solleti Vivek",
     description:
       "Explore my latest articles on web development, AWS deployments, React, Next.js, and programming tutorials.",
-    url: `${process.env.NEXT_PUBLIC_BASE_URL || "https://your-domain.com"}/blog`,
-    siteName: "Vivek Portfolio - Tech Blog",
+    url: `${process.env.NEXT_PUBLIC_BASE_URL || "https://solletivivek.vercel.app"}/blog`,
+    siteName: "Solleti Vivek - Tech Blog",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL || "https://your-domain.com"}/og-blog.jpg`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL || "https://solletivivek.vercel.app"}/og-blog.jpg`,
         width: 1200,
         height: 630,
-        alt: "Vivek Tech Blog",
+        alt: "Solleti Vivek Tech Blog",
       },
     ],
     locale: "en_US",
@@ -32,11 +32,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tech Blog | Vivek Portfolio",
+    title: "Tech Blog | Solleti Vivek",
     description:
       "Explore my latest articles on web development, AWS deployments, React, Next.js, and programming tutorials.",
     images: [
-      `${process.env.NEXT_PUBLIC_BASE_URL || "https://your-domain.com"}/og-blog.jpg`,
+      `${process.env.NEXT_PUBLIC_BASE_URL || "https://solletivivek.vercel.app"}/og-blog.jpg`,
     ],
     creator: "@yourtwitterhandle",
   },
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_BASE_URL || "https://your-domain.com"}/blog`,
+    canonical: `${process.env.NEXT_PUBLIC_BASE_URL || "https://solletivivek.vercel.app"}/blog`,
   },
 };
 

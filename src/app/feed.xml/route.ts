@@ -2,13 +2,13 @@ import { getAllBlogPosts } from '@/lib/blog'
 
 export async function GET() {
   const posts = await getAllBlogPosts()
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://your-domain.com'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://solletivivek.vercel.app'
 
   const rssXml = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vivek's Tech Blog</title>
-    <description>Web development, programming tutorials, and tech insights</description>
+    <title>Solleti Vivek's Tech Blog</title>
+    <description>Web development, programming tutorials, and tech insights by Solleti Vivek</description>
     <link>${baseUrl}/blog</link>
     <language>en-us</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
