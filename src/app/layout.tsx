@@ -47,6 +47,13 @@ export const metadata: Metadata = {
     google: "",
     yandex: "",
   },
+  alternates: {
+    types: {
+      'application/rss+xml': [
+        { url: '/feed.xml', title: 'RSS Feed' }
+      ]
+    }
+  },
 };
 
 export default function RootLayout({
