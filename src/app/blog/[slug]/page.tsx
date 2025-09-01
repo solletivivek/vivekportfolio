@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 
   // Generate dynamic keywords from post content and tags
   const baseKeywords = [
+    "Vivek Solleti",
     "Solleti Vivek",
     "web development",
     "programming",
@@ -51,17 +52,17 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
   ].filter(Boolean);
 
   return {
-    title: `${post.title} | Solleti Vivek's Blog`,
+    title: `${post.title} | Vivek Solleti's Blog`,
     description: post.description || post.excerpt || `Read about ${post.title} and more tech insights.`,
     keywords: dynamicKeywords.join(", "),
-    authors: [{ name: "Solleti Vivek" }],
-    creator: "Solleti Vivek",
-    publisher: "Solleti Vivek",
+    authors: [{ name: "Vivek Solleti" }],
+    creator: "Vivek Solleti",
+    publisher: "Vivek Solleti",
     openGraph: {
       title: post.title,
       description: post.description || post.excerpt || `Read about ${post.title} and more tech insights.`,
       url,
-      siteName: "Solleti Vivek - Tech Blog",
+      siteName: "Vivek Solleti - Tech Blog",
       images: [
         {
           url: post.image || `${baseUrl}/og-blog-default.jpg`,
@@ -74,7 +75,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
       type: "article",
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt || post.publishedAt,
-      authors: ["Solleti Vivek"],
+      authors: ["Vivek Solleti"],
       tags: post.tags,
     },
     twitter: {

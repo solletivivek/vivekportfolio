@@ -7,8 +7,8 @@ export async function GET() {
   const rssXml = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Solleti Vivek's Tech Blog</title>
-    <description>Web development, programming tutorials, and tech insights by Solleti Vivek</description>
+    <title>Vivek Solleti's Tech Blog</title>
+    <description>Web development, programming tutorials, and tech insights by Vivek Solleti</description>
     <link>${baseUrl}/blog</link>
     <language>en-us</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>

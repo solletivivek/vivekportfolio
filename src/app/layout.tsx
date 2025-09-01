@@ -70,8 +70,8 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              "name": "Solleti Vivek",
-              "alternateName": ["Vivek Solleti", "Solleti Vivek"],
+              "name": "Vivek Solleti",
+              "alternateName": ["Solleti Vivek", "Vivek Solleti"],
               "url": "https://solletivivek.vercel.app",
               "jobTitle": "Founder & CEO",
               "worksFor": {
