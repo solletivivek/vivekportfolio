@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://your-domain.com";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://solletivivek.vercel.app/";
   const url = `${baseUrl}/blog/${slug}`;
 
   // Generate dynamic keywords from post content and tags
