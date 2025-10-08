@@ -1,6 +1,7 @@
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import ClarityAnalytics from "@/components/clarity-analytics";
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -94,6 +95,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <ClarityAnalytics />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <TooltipProvider delayDuration={0}>
             <div className="relative z-10">
