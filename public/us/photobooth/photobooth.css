@@ -36,6 +36,11 @@
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
+/* Camera Preview - mirror like phone front camera */
+#video {
+  transform: scaleX(-1);
+}
+
 /* Timer Animation */
 #timerNumber {
   animation: countdown-pulse 1s ease-in-out;

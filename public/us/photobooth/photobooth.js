@@ -311,7 +311,13 @@ async function downloadPhotostrip() {
   // Download
   const dataURL = finalCanvas.toDataURL('image/png');
   const link = document.createElement('a');
-  link.download = `love-photostrip-${Date.now()}.png`;
+  // Format: vineelavivek-feb02-2026-0001
+  const today = new Date();
+  const month = today.toLocaleString('en-US', { month: 'short' }).toLowerCase();
+  const day = String(today.getDate()).padStart(2, '0');
+  const year = today.getFullYear();
+  const photoCount = String(capturedPhotos.length).padStart(5, '0');
+  link.download = `vineelavivek-${month}-${day}-${year}-${photoCount}.png`;
   link.href = dataURL;
   link.click();
   
