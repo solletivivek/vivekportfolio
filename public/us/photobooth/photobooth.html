@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Booth 📷💕</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="photobooth.css">
+</head>
+<body class="gradient-background min-h-screen">
+  
+  <!-- Back Button - Top Left -->
+  <button id="backButton" class="fixed top-4 left-4 z-50 px-4 py-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-all flex items-center gap-2 text-pink-600 font-bold">
+    <span class="text-xl">←</span> Back
+  </button>
+
+  <!-- Step 1 & 2: Camera Preview & Auto Capture -->
+  <div id="cameraScreen" class="flex items-center justify-center min-h-screen p-4">
+    <div class="flex flex-col items-center w-full max-w-md">
+      <!-- Camera Container -->
+      <div id="cameraContainer" class="relative w-full aspect-square rounded-3xl overflow-hidden bg-gray-900 shadow-2xl mb-4">
+        <video id="video" autoplay playsinline muted class="w-full h-full object-cover"></video>
+        <canvas id="canvas" class="hidden"></canvas>
+        
+        <!-- Timer Countdown Overlay -->
+        <div id="timerOverlay" class="hidden absolute inset-0 bg-black/40 flex items-center justify-center">
+          <div id="timerNumber" class="text-white text-9xl font-bold countdown-animation"></div>
+        </div>
+
+        <!-- Flash Effect -->
+        <div id="flashEffect" class="hidden absolute inset-0 bg-white"></div>
+      </div>
+
+      <!-- Status Text -->
+      <p id="statusText" class="text-lg sm:text-xl text-gray-700 font-medium text-center px-4">
+        Requesting camera access...
+      </p>
+    </div>
+  </div>
+
+  <!-- Step 3: Add Note -->
+  <div id="noteScreen" class="hidden flex items-center justify-center min-h-screen p-4">
+    <div class="w-full max-w-2xl">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 note-title">
+        Add a note to your photos
+      </h2>
+      
+      <div class="bg-[#f5f1e8] rounded-2xl shadow-2xl p-8 sm:p-12 mb-8">
+        <textarea 
+          id="noteInput" 
+          placeholder="Write your note here..."
+          maxlength="150"
+          class="w-full h-48 bg-transparent border-3 border-[#7d6244] rounded-xl p-4 text-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#7d6244] note-input"
+        ></textarea>
+        <div class="text-right mt-2 text-sm text-[#8b7355]">
+          <span id="charCount">0</span>/150 characters
+        </div>
+      </div>
+
+      <button id="continueToCustomize" class="w-full py-4 bg-[#7d6244] hover:bg-[#6b5239] text-white text-xl font-bold rounded-xl shadow-lg transition-all transform hover:scale-105">
+        Continue
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 4: Customization -->
+  <div id="customizeScreen" class="hidden flex items-center justify-center min-h-screen p-4">
+    <div class="w-full max-w-2xl">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 customize-title">
+        Customize your photostrip
+      </h2>
+
+      <div class="bg-[#f5f1e8] rounded-2xl shadow-2xl p-8 sm:p-12 mb-8">
+        
+        <!-- Photostrip Color -->
+        <div class="mb-8">
+          <h3 class="text-xl font-bold text-[#5c4a3a] mb-4">Photostrip</h3>
+          <div class="flex gap-4">
+            <button class="color-option active" data-type="strip" data-color="cream" style="background: #f5f1e8; border: 3px solid #7d6244;">
+              <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="#7d6244" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+            <button class="color-option" data-type="strip" data-color="lavender" style="background: #e8e4f3; border: 3px solid #9b8fb5;"></button>
+            <button class="color-option" data-type="strip" data-color="pink" style="background: #fce7f3; border: 3px solid #f9a8d4;"></button>
+            <button class="color-option" data-type="strip" data-color="black" style="background: #1a1a1a; border: 3px solid #000;"></button>
+          </div>
+        </div>
+
+        <!-- Background Color -->
+        <div class="mb-8">
+          <h3 class="text-xl font-bold text-[#5c4a3a] mb-4">Background</h3>
+          <div class="flex gap-4">
+            <button class="color-option active" data-type="background" data-color="cream" style="background: #f5f1e8; border: 3px solid #7d6244;">
+              <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="#7d6244" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+            <button class="color-option" data-type="background" data-color="blue" style="background: #dbeafe; border: 3px solid #93c5fd;"></button>
+            <button class="color-option" data-type="background" data-color="pink" style="background: #fce7f3; border: 3px solid #f9a8d4;"></button>
+            <button class="color-option" data-type="background" data-color="white" style="background: #ffffff; border: 3px solid #e5e7eb;"></button>
+          </div>
+        </div>
+
+        <!-- Date Stamp Toggle -->
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold text-[#5c4a3a]">Display date stamp</h3>
+          <button id="dateToggle" class="toggle-switch active" data-enabled="true">
+            <div class="toggle-slider"></div>
+          </button>
+        </div>
+      </div>
+
+      <button id="continueToPreview" class="w-full py-4 bg-[#7d6244] hover:bg-[#6b5239] text-white text-xl font-bold rounded-xl shadow-lg transition-all transform hover:scale-105">
+        Continue
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 5: Preview & Download -->
+  <div id="previewScreen" class="hidden min-h-screen p-4 flex items-center justify-center">
+    <div class="w-full max-w-4xl">
+      
+      <!-- Preview Container -->
+      <div class="flex flex-col items-center mb-8">
+        <div class="flex items-start gap-2 mb-6">
+          <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+          <p class="text-xl text-[#7d6244] italic font-medium">Photo is printing</p>
+        </div>
+
+        <!-- Photostrip Preview -->
+        <div id="photostripContainer" class="photostrip-wrapper">
+          <div id="photostrip" class="photostrip">
+            <!-- Photos will be inserted here -->
+            <div class="photo-slot">
+              <img id="photo1" src="" alt="Photo 1">
+            </div>
+            <div class="photo-slot">
+              <img id="photo2" src="" alt="Photo 2">
+            </div>
+            <div class="photo-slot">
+              <img id="photo3" src="" alt="Photo 3">
+            </div>
+            
+            <!-- Date Stamp -->
+            <div id="dateStamp" class="date-stamp"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collect Photo Button -->
+      <button id="collectPhoto" class="w-full max-w-2xl mx-auto block py-4 bg-[#7d6244] hover:bg-[#6b5239] text-white text-xl font-bold rounded-xl shadow-lg transition-all transform hover:scale-105">
+        Collect Photo
+      </button>
+    </div>
+  </div>
+
+  <script src="photobooth.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Story 💕</title>
+  <link rel="stylesheet" href="photoalbum.css">
+</head>
+<body>
+  
+  <!-- Instagram-style Stories Container -->
+  <div class="stories-container">
+    
+    <!-- Progress Bars at Top -->
+    <div class="progress-bars">
+      <!-- Progress bars will be dynamically generated -->
+    </div>
+
+    <!-- Back Button -->
+    <button class="back-button" id="backButton">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+
+    <!-- Story Header -->
+    <div class="story-header">
+      <div class="story-info">
+        <div class="story-avatar">💕</div>
+        <div class="story-title">Our Moments Together</div>
+      </div>
+    </div>
+
+    <!-- Main Media Container -->
+    <div class="media-container" id="mediaContainer">
+      <!-- Media (image/video) will be displayed here -->
+      <img id="storyImage" class="story-media hidden" alt="Story">
+      <video id="storyVideo" class="story-media hidden" playsinline></video>
+    </div>
+
+    <!-- Caption Overlay -->
+    <div class="caption-overlay" id="captionOverlay">
+      <p class="caption-text" id="captionText"></p>
+    </div>
+
+    <!-- Left and Right tap zones -->
+    <div class="tap-zone left-zone" id="leftZone"></div>
+    <div class="tap-zone right-zone" id="rightZone"></div>
+
+    <!-- Paused Indicator -->
+    <div class="paused-indicator hidden" id="pausedIndicator">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="white" opacity="0.8">
+        <rect x="15" y="12" width="8" height="36" rx="2"/>
+        <rect x="37" y="12" width="8" height="36" rx="2"/>
+      </svg>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner"></div>
+    </div>
+
+  </div>
+
+  <script src="photoalbum.js"></script>
+</body>
+</html>

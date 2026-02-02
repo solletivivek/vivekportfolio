@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentines Day</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-background {
+      background: rgb(255, 208, 229);
+      background: linear-gradient(180deg, rgba(255, 208, 229, 1) 0%, rgba(255, 232, 242, 1) 36%, rgba(255, 255, 255, 1) 100%);
+    }
+
+    .bounce2 {
+      animation: bounce2 2s ease infinite;
+    }
+
+    @keyframes bounce2 {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-20px);
+      }
+      60% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .heart-float {
+      animation: heartFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes heartFloat {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(10deg);
+        opacity: 0;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .pulse-heart {
+      animation: pulseHeart 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulseHeart {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    /* Ensure button stays within viewport */
+    #yesButton {
+      max-width: 90vw;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform-origin: center;
+    }
+    
+    /* Add some extra spacing for the growing button */
+    #responseButtons {
+      min-height: 80px;
+    }
+
+    /* Shake animation for running button */
+    .shake {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+      20%, 40%, 60%, 80% { transform: translateX(10px); }
+    }
+
+    /* Running button cursor */
+    #noButton.running {
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body class="gradient-background min-h-screen overflow-x-hidden">
+  
+  <!-- Main Question Section -->
+  <div id="questionSection" class="flex items-center justify-center min-h-screen p-4">
+    <div class="flex flex-col items-center w-full max-w-md">
+      <img id="imageDisplay" src="./images/image1.gif" alt="Cute kitten with flowers" 
+           class="rounded-lg w-full max-w-[280px] sm:max-w-[320px] h-auto shadow-lg" />
+      <h2 id="valentineQuestion" class="text-2xl sm:text-3xl md:text-4xl font-bold italic text-[#bd1e59] my-4 sm:my-6 text-center px-2">
+        Will you be my Valentine Vineela?
+      </h2>
+      <div class="flex flex-col sm:flex-row gap-4 pt-4 items-center w-full justify-center" id="responseButtons">
+        <button id="yesButton"
+          class="bounce2 inline-flex items-center justify-center whitespace-nowrap rounded-lg font-bold disabled:pointer-events-none disabled:opacity-50 hover:bg-green-400 px-6 py-3 bg-green-500 text-white transition-all shadow-lg hover:shadow-xl">
+          Yes 💕
+        </button>
+        <button id="noButton"
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-all disabled:pointer-events-none disabled:opacity-50 hover:bg-red-700 px-6 py-3 bg-red-500 text-white shadow-lg hover:shadow-xl">
+          No
+        </button>
+      </div>
+      <p id="runningHint" class="hidden text-base sm:text-lg text-pink-600 font-bold mt-4 text-center animate-pulse px-4">
+        😏 Can't click No anymore? Maybe it's a sign... Just click Yes! 💕
+      </p>
+    </div>
+  </div>
+
+  <!-- Success Screen -->
+  <div id="successScreen" class="hidden flex-col items-center justify-center min-h-screen p-4 pb-24 md:pb-4">
+    <div class="text-center max-w-md w-full fade-in">
+      <div class="text-6xl sm:text-7xl mb-4 pulse-heart">💖</div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold italic text-[#bd1e59] mb-4">
+        Yayyy!! :3
+      </h2>
+      <p class="text-lg sm:text-xl text-pink-700 mb-6 px-4">
+        You just made me the happiest person ever! 🥰
+      </p>
+      <img id="successImage" src="./images/image7.gif" alt="Happy celebration" 
+           class="rounded-lg w-full max-w-[280px] sm:max-w-[320px] mx-auto mb-6 shadow-lg" />
+      
+      <!-- Bottom Navigation Bar (Mobile) / Normal Buttons (Desktop) -->
+      <nav id="successNavBar" class="fixed bottom-0 left-0 right-0 md:relative md:bottom-auto md:left-auto md:right-auto bg-white/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none shadow-2xl md:shadow-none border-t-2 border-pink-200 md:border-0 p-4 md:p-0">
+        <div class="flex justify-around items-center gap-2 md:flex-col md:gap-4 max-w-md mx-auto">
+          <button id="homeButton"
+            class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 px-4 py-2 md:px-8 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex-1 md:flex-none md:w-full">
+            <span class="text-2xl md:text-3xl">🏠</span>
+            <span class="text-xs md:text-lg font-bold">Home</span>
+          </button>
+          
+          <button id="photoBoothButton"
+            class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 px-4 py-2 md:px-8 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex-1 md:flex-none md:w-full">
+            <span class="text-2xl md:text-3xl">📷</span>
+            <span class="text-xs md:text-lg font-bold">Photo Booth</span>
+          </button>
+          
+          <button id="albumButtonNav"
+            class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 px-4 py-2 md:px-8 md:py-4 rounded-lg md:rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex-1 md:flex-none md:w-full">
+            <span class="text-2xl md:text-3xl">🖼️</span>
+            <span class="text-xs md:text-lg font-bold">Album</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <script type="module">
+    import confetti from 'https://cdn.skypack.dev/canvas-confetti';
+    
+    // Elements
+    const yesButton = document.getElementById('yesButton');
+    const noButton = document.getElementById('noButton');
+    const imageDisplay = document.getElementById('imageDisplay');
+    const valentineQuestion = document.getElementById('valentineQuestion');
+    const responseButtons = document.getElementById('responseButtons');
+    const questionSection = document.getElementById('questionSection');
+    const successScreen = document.getElementById('successScreen');
+    const runningHint = document.getElementById('runningHint');
+    
+    // Navigation buttons
+    const homeButton = document.getElementById('homeButton');
+    const photoBoothButton = document.getElementById('photoBoothButton');
+    const albumButtonNav = document.getElementById('albumButtonNav');
+  
+    let noClickCount = 0;
+    let buttonScale = 1;
+    const imagePaths = [
+      "./images/image1.gif",
+      "./images/image2.gif",
+      "./images/image3.gif",
+      "./images/image4.gif",
+      "./images/image5.gif",
+      "./images/image6.gif",
+      "./images/image7.gif"
+    ];
+
+    const noButtonTexts = [
+      "No", 
+      "Are you sure? 🥺", 
+      "Pookie please 💕", 
+      "buji please",
+      "na buji kada na bangram kada",
+      "mudhu estha dha vee",
+      "Sorry buji… 🥹",
+      "pls accept my love",
+      "pottti dha na deygariki",
+      "feel my love",
+      "muddi medha mudhu estha dha",
+      "please bujii amma 😭"
+    ];
+
+    let isButtonRunning = false;
+
+    // Function to move "No" button to random position
+    function moveNoButtonRandomly() {
+      const container = questionSection;
+      const containerRect = container.getBoundingClientRect();
+      const buttonRect = noButton.getBoundingClientRect();
+      
+      // Calculate safe bounds (keep button within viewport)
+      const maxX = window.innerWidth - buttonRect.width - 20;
+      const maxY = window.innerHeight - buttonRect.height - 20;
+      const minX = 20;
+      const minY = 20;
+      
+      // Generate random position
+      const randomX = Math.floor(Math.random() * (maxX - minX) + minX);
+      const randomY = Math.floor(Math.random() * (maxY - minY) + minY);
+      
+      // Apply position
+      noButton.style.position = 'fixed';
+      noButton.style.left = `${randomX}px`;
+      noButton.style.top = `${randomY}px`;
+      noButton.style.transition = 'all 0.3s ease';
+      noButton.style.zIndex = '9999';
+      
+      // Show hint message
+      runningHint.classList.remove('hidden');
+    }
+
+    // No button logic - Responsive button growth and running away
+    noButton.addEventListener('click', function(e) {
+      noClickCount++;
+      
+      // Change image up to available images
+      if (noClickCount < imagePaths.length) {
+        imageDisplay.src = imagePaths[noClickCount];
+      }
+      
+      // Grow the Yes button for first 5 clicks
+      if (noClickCount <= 5) {
+        // Responsive scaling - grows dramatically with each click!
+        buttonScale += 0.7;
+        const scaleFactor = Math.min(buttonScale, 4.5);
+        yesButton.style.transform = `scale(${scaleFactor})`;
+        yesButton.style.fontSize = `${1 + (noClickCount * 0.3)}rem`;
+        yesButton.style.transition = 'transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+      }
+      
+      // Update button text if we have messages left
+      if (noClickCount < noButtonTexts.length) {
+        noButton.textContent = noButtonTexts[noClickCount];
+      }
+      
+      // After showing all messages, make button run away!
+      if (noClickCount >= noButtonTexts.length - 1) {
+        isButtonRunning = true;
+        noButton.classList.add('running', 'shake');
+        setTimeout(() => noButton.classList.remove('shake'), 500);
+        moveNoButtonRandomly();
+      }
+    });
+
+    // Make button run away when hovering after it starts running
+    noButton.addEventListener('mouseenter', function() {
+      if (isButtonRunning) {
+        noButton.classList.add('shake');
+        setTimeout(() => noButton.classList.remove('shake'), 500);
+        moveNoButtonRandomly();
+      }
+    });
+
+    // Also move on touch devices
+    noButton.addEventListener('touchstart', function(e) {
+      if (isButtonRunning) {
+        e.preventDefault();
+        noButton.classList.add('shake');
+        setTimeout(() => noButton.classList.remove('shake'), 500);
+        moveNoButtonRandomly();
+      }
+    });
+  
+    // Yes button logic
+    yesButton.addEventListener('click', () => {
+      // Trigger confetti
+      const duration = 3000;
+      const end = Date.now() + duration;
+      
+      const frame = () => {
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#ff69b4', '#ff1493', '#ff85c1']
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#ff69b4', '#ff1493', '#ff85c1']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      };
+      frame();
+
+      // Show success screen
+      questionSection.classList.add('hidden');
+      successScreen.classList.remove('hidden');
+      successScreen.classList.add('flex');
+    });
+
+    // Navigation button handlers
+    homeButton.addEventListener('click', () => {
+      // Reset to question screen
+      successScreen.classList.add('hidden');
+      questionSection.classList.remove('hidden');
+      
+      // Reset button state
+      noClickCount = 0;
+      buttonScale = 1;
+      isButtonRunning = false;
+      yesButton.style.transform = 'scale(1)';
+      yesButton.style.fontSize = '1rem';
+      noButton.textContent = 'No';
+      noButton.style.position = 'relative';
+      noButton.style.left = 'auto';
+      noButton.style.top = 'auto';
+      noButton.style.zIndex = 'auto';
+      noButton.classList.remove('running', 'shake');
+      imageDisplay.src = imagePaths[0];
+      runningHint.classList.add('hidden');
+    });
+
+    photoBoothButton.addEventListener('click', () => {
+      // Navigate to photo booth page
+      window.location.href = './photobooth/photobooth.html';
+    });
+
+    albumButtonNav.addEventListener('click', () => {
+      // Navigate to photo album page
+      window.location.href = './photoAlbum/photoalbum.html';
+    });
+  </script>  
+</body>
+</html>
